@@ -1,0 +1,83 @@
+<!DOCTYPE CrossStudio_Session_File>
+<session>
+ <Bookmarks/>
+ <Breakpoints groups="Breakpoints" active_group="Breakpoints">
+  <BreakpointListItem trigger="" line="236" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="../../../main/main.c" useHWbreakpoint="false"/>
+  <BreakpointListItem trigger="" line="70" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="../../../main/main.c" useHWbreakpoint="false"/>
+  <BreakpointListItem trigger="" line="141" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="../../../components/sens/sensor_driver.c" useHWbreakpoint="false"/>
+  <BreakpointListItem trigger="" line="75" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="../../../components/sens/sensor_driver.c" useHWbreakpoint="false"/>
+ </Breakpoints>
+ <ExecutionProfileWindow/>
+ <FrameBufferWindow>
+  <FrameBufferWindow bufferHeight="-1" addressSpace="" addressText="" bufferWidth="-1"/>
+ </FrameBufferWindow>
+ <Memory1>
+  <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="2" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="ble_app_pi_sensor_pca10056_s140" sizeText="sizeof()" addressText="&amp;"/>
+ </Memory1>
+ <Memory2>
+  <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="ble_app_pi_sensor_pca10056_s140" sizeText="" addressText=""/>
+ </Memory2>
+ <Memory3>
+  <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="ble_app_pi_sensor_pca10056_s140" sizeText="" addressText=""/>
+ </Memory3>
+ <Memory4>
+  <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="ble_app_pi_sensor_pca10056_s140" sizeText="" addressText=""/>
+ </Memory4>
+ <Project>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;Application"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;Application;components"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;Application;components;blue"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;Application;components;butt"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;Application;components;leds"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;Application;components;logs"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;Application;components;sens"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;Application;config"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;Application;main"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;Board Support"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;None"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;nRF_Drivers"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;nRF_Libraries"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;nRF_Log"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;nRF_Segger_RTT"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;Segger Startup Files"/>
+  <ProjectSessionItem path="ble_app_pi_sensor_pca10056_s140;ble_app_pi_sensor_pca10056_s140;UTF8/UTF16 converter"/>
+ </Project>
+ <Register1>
+  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;UARTE0/TASKS_STARTRX;UARTE0/TASKS_STOPRX;UARTE0/TASKS_STARTTX;UARTE0/TASKS_STOPTX;UARTE0/TASKS_FLUSHRX;UARTE0/EVENTS_CTS;UARTE0/EVENTS_NCTS;UARTE0/EVENTS_RXDRDY;UARTE0/EVENTS_ENDRX;UARTE0/EVENTS_TXDRDY;UARTE0/EVENTS_ENDTX;UARTE0/EVENTS_ERROR;UARTE0/EVENTS_RXTO;UARTE0/EVENTS_RXSTARTED;UARTE0/EVENTS_TXSTARTED;UARTE0/EVENTS_TXSTOPPED;UARTE0/SHORTS;UARTE0/INTEN;UARTE0/INTENSET;UARTE0/INTENCLR;UARTE0/ERRORSRC;UARTE0/ENABLE;UARTE0/BAUDRATE;UARTE0/CONFIG;UARTE0/PSEL.RTS;UARTE0/PSEL.TXD;UARTE0/PSEL.CTS;UARTE0/PSEL.RXD;UARTE0/RXD.PTR;UARTE0/RXD.MAXCNT;UARTE0/RXD.AMOUNT;UARTE0/TXD.PTR;UARTE0/TXD.MAXCNT;UARTE0/TXD.AMOUNT;UARTE1/TASKS_STARTRX;UARTE1/TASKS_STOPRX;UARTE1/TASKS_STARTTX;UARTE1/TASKS_STOPTX;UARTE1/TASKS_FLUSHRX;UARTE1/EVENTS_CTS;UARTE1/EVENTS_NCTS;UARTE1/EVENTS_RXDRDY;UARTE1/EVENTS_ENDRX;UARTE1/EVENTS_TXDRDY;UARTE1/EVENTS_ENDTX;UARTE1/EVENTS_ERROR;UARTE1/EVENTS_RXTO;UARTE1/EVENTS_RXSTARTED;UARTE1/EVENTS_TXSTARTED;UARTE1/EVENTS_TXSTOPPED;UARTE1/SHORTS;UARTE1/INTEN;UARTE1/INTENSET;UARTE1/INTENCLR;UARTE1/ERRORSRC;UARTE1/ENABLE;UARTE1/BAUDRATE;UARTE1/CONFIG;UARTE1/PSEL.RTS;UARTE1/PSEL.TXD;UARTE1/PSEL.CTS;UARTE1/PSEL.RXD;UARTE1/RXD.PTR;UARTE1/RXD.MAXCNT;UARTE1/RXD.AMOUNT;UARTE1/TXD.PTR;UARTE1/TXD.MAXCNT;UARTE1/TXD.AMOUNT;SAADC/TASKS_START;SAADC/TASKS_SAMPLE;SAADC/TASKS_STOP;SAADC/TASKS_CALIBRATEOFFSET;SAADC/EVENTS_STARTED;SAADC/EVENTS_END;SAADC/EVENTS_DONE;SAADC/EVENTS_RESULTDONE;SAADC/EVENTS_CALIBRATEDONE;SAADC/EVENTS_STOPPED;SAADC/INTEN;SAADC/INTENSET;SAADC/INTENCLR;SAADC/STATUS;SAADC/ENABLE;SAADC/RESOLUTION;SAADC/OVERSAMPLE;SAADC/SAMPLERATE;SAADC/EVENTS_CH[0].LIMITH;SAADC/EVENTS_CH[0].LIMITL;SAADC/EVENTS_CH[1].LIMITH;SAADC/EVENTS_CH[1].LIMITL;SAADC/EVENTS_CH[2].LIMITH;SAADC/EVENTS_CH[2].LIMITL;SAADC/EVENTS_CH[3].LIMITH;SAADC/EVENTS_CH[3].LIMITL;SAADC/EVENTS_CH[4].LIMITH;SAADC/EVENTS_CH[4].LIMITL;SAADC/EVENTS_CH[5].LIMITH;SAADC/EVENTS_CH[5].LIMITL;SAADC/EVENTS_CH[6].LIMITH;SAADC/EVENTS_CH[6].LIMITL;SAADC/EVENTS_CH[7].LIMITH;SAADC/EVENTS_CH[7].LIMITL;SAADC/CH[0].PSELP;SAADC/CH[0].PSELN;SAADC/CH[0].CONFIG;SAADC/CH[0].LIMIT;SAADC/CH[1].PSELP;SAADC/CH[1].PSELN;SAADC/CH[1].CONFIG;SAADC/CH[1].LIMIT;SAADC/CH[2].PSELP;SAADC/CH[2].PSELN;SAADC/CH[2].CONFIG;SAADC/CH[2].LIMIT;SAADC/CH[3].PSELP;SAADC/CH[3].PSELN;SAADC/CH[3].CONFIG;SAADC/CH[3].LIMIT;SAADC/CH[4].PSELP;SAADC/CH[4].PSELN;SAADC/CH[4].CONFIG;SAADC/CH[4].LIMIT;SAADC/CH[5].PSELP;SAADC/CH[5].PSELN;SAADC/CH[5].CONFIG;SAADC/CH[5].LIMIT;SAADC/CH[6].PSELP;SAADC/CH[6].PSELN;SAADC/CH[6].CONFIG;SAADC/CH[6].LIMIT;SAADC/CH[7].PSELP;SAADC/CH[7].PSELN;SAADC/CH[7].CONFIG;SAADC/CH[7].LIMIT;SAADC/RESULT.PTR;SAADC/RESULT.MAXCNT;SAADC/RESULT.AMOUNT;TIMER0/TASKS_START;TIMER0/TASKS_STOP;TIMER0/TASKS_COUNT;TIMER0/TASKS_CLEAR;TIMER0/TASKS_SHUTDOWN;TIMER0/TASKS_CAPTURE[0];TIMER0/TASKS_CAPTURE[1];TIMER0/TASKS_CAPTURE[2];TIMER0/TASKS_CAPTURE[3];TIMER0/TASKS_CAPTURE[4];TIMER0/TASKS_CAPTURE[5];TIMER0/EVENTS_COMPARE[0];TIMER0/EVENTS_COMPARE[1];TIMER0/EVENTS_COMPARE[2];TIMER0/EVENTS_COMPARE[3];TIMER0/EVENTS_COMPARE[4];TIMER0/EVENTS_COMPARE[5];TIMER0/SHORTS;TIMER0/INTENSET;TIMER0/INTENCLR;TIMER0/MODE;TIMER0/BITMODE;TIMER0/PRESCALER;TIMER0/CC[0];TIMER0/CC[1];TIMER0/CC[2];TIMER0/CC[3];TIMER0/CC[4];TIMER0/CC[5];TIMER1/TASKS_START;TIMER1/TASKS_STOP;TIMER1/TASKS_COUNT;TIMER1/TASKS_CLEAR;TIMER1/TASKS_SHUTDOWN;TIMER1/TASKS_CAPTURE[0];TIMER1/TASKS_CAPTURE[1];TIMER1/TASKS_CAPTURE[2];TIMER1/TASKS_CAPTURE[3];TIMER1/TASKS_CAPTURE[4];TIMER1/TASKS_CAPTURE[5];TIMER1/EVENTS_COMPARE[0];TIMER1/EVENTS_COMPARE[1];TIMER1/EVENTS_COMPARE[2];TIMER1/EVENTS_COMPARE[3];TIMER1/EVENTS_COMPARE[4];TIMER1/EVENTS_COMPARE[5];TIMER1/SHORTS;TIMER1/INTENSET;TIMER1/INTENCLR;TIMER1/MODE;TIMER1/BITMODE;TIMER1/PRESCALER;TIMER1/CC[0];TIMER1/CC[1];TIMER1/CC[2];TIMER1/CC[3];TIMER1/CC[4];TIMER1/CC[5]" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context/apsr;UARTE0;TIMER0;TIMER0/EVENTS_COMPARE[0];TIMER0/CC[0]" name="ble_app_pi_sensor_pca10056_s140" decimalNodes="TIMER0/CC[0]" octalNodes="" unsignedNodes=""/>
+ </Register1>
+ <Register2>
+  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="ble_app_pi_sensor_pca10056_s140" decimalNodes="" octalNodes="" unsignedNodes=""/>
+ </Register2>
+ <Register3>
+  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="ble_app_pi_sensor_pca10056_s140" decimalNodes="" octalNodes="" unsignedNodes=""/>
+ </Register3>
+ <Register4>
+  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="ble_app_pi_sensor_pca10056_s140" decimalNodes="" octalNodes="" unsignedNodes=""/>
+ </Register4>
+ <Threads>
+  <ThreadsWindow showLists=""/>
+ </Threads>
+ <TraceWindow>
+  <Trace enabled="Yes"/>
+ </TraceWindow>
+ <Watch1>
+  <Watches active="1" update="Each Second"/>
+ </Watch1>
+ <Watch2>
+  <Watches active="0" update="Never"/>
+ </Watch2>
+ <Watch3>
+  <Watches active="0" update="Never"/>
+ </Watch3>
+ <Watch4>
+  <Watches active="0" update="Never"/>
+ </Watch4>
+ <Files>
+  <SessionOpenFile windowGroup="DockEditLeft" x="23" y="11" useTextEdit="1" path="../../../main/main.c" left="0" selected="1" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="30" y="15" useTextEdit="1" path="../../../components/sens/include/sensor_driver.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="189" useTextEdit="1" path="../../../components/sens/sensor_driver.c" left="0" top="174" codecName="Default"/>
+ </Files>
+ <EMStudioWindow activeProject="ble_app_pi_sensor_pca10056_s140" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="/Users/a3dse/Documents/BLE/PiSensorBLE/nRF5_SDK/modules/nrfx/drivers/src" debugSearchPath="" autoConnectCapabilities="3711"/>
+</session>

@@ -50,3 +50,12 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Apple macOS operating system 
+**/.DS_Store
+.vscode/
+
+# SEGGER Embedded Studio and JLink 
+application/pca10056/s140/ses/Output/
+application/pca10056/s140/ses/ble_app_pi_sensor_pca10056_s140_Release.jlink
+application/pca10056/s140/ses/ble_app_pi_sensor_pca10056_s140_Debug.jlink
