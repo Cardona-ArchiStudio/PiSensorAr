@@ -10,14 +10,24 @@ PiSensorBLE
   │     │  
   │     ├── components
   │     │   │
-  │     │   ├── blue
+  │     │   ├── sadc
   │     │   │   ├── include
-  │     │   │   │   └── bluetooth_driver.h
-  │     │   │   └── bluetooth_driver.c
+  │     │   │   │   └── sadc_driver.h
+  │     │   │   └── sadc_driver.c
+  │     │   │
+  │     │   ├── uart
+  │     │   │   ├── include
+  │     │   │   │   └── uart_driver.h
+  │     │   │   └── uart_driver.c
+  │     │   │
+  │     │   ├── sens
+  │     │   │   ├── include
+  │     │   │   │   └── sensor_driver.h
+  │     │   │   └── sensor_driver.c
   │     │   │  
-  │     │   ├── butt
+  │     │   ├── logs
   │     │   │   ├── include
-  │     │   │   │   └── button_driver.h
+  │     │   │   │   └── log_driver.h
   │     │   │   └── button_driver.c
   │     │   │  
   │     │   ├── leds
@@ -25,15 +35,15 @@ PiSensorBLE
   │     │   │   │   └── led_driver.h
   │     │   │   └── led_driver.c
   │     │   │  
-  │     │   ├── logs
+  │     │   ├── butt
   │     │   │   ├── include
-  │     │   │   │   └── log_driver.h
-  │     │   │   └── log_driver.c
+  │     │   │   │   └── button_driver.h
+  │     │   │   └── button_driver.c
   │     │   │
-  │     │   └── sens
+  │     │   └── blue
   │     │       ├── include
-  │     │       │   └── sensor_driver.h
-  │     │       └── sensor_driver.c
+  │     │       │   └── bluetooth_driver.h
+  │     │       └── bluetooth_driver.c
   │     │   
   │     ├── main
   │     │   │
@@ -69,53 +79,54 @@ PiSensorBLE
 
 Directory structure:
 
-components
+main
+main/main.c
+
+components/sens
+components/sens/sensor_driver.c
+components/sens/include/sensor_driver.h
+
+components/sadc
+components/sadc/sadc_driver.c
+components/sadc/include/sadc_driver.h
+
+components/uart
+components/uart/uart_driver.c
+components/uart/include/uart_driver.h
+
+components/logs
+components/logs/log_driver.c
+components/logs/include/log_driver.h
+
 components/blue
 components/blue/bluetooth_driver.c
-components/blue/include
 components/blue/include/bluetooth_driver.h
 
 components/butt
 components/butt/button_driver.c
-components/butt/include
 components/butt/include/button_driver.h
 
 components/leds
 components/leds/led_driver.c
-components/leds/include
 components/leds/include/led_driver.h
 
-components/logs
-components/logs/log_driver.c
-components/logs/include
-components/logs/include/log_driver.h
+pca10056/s140/config/sdk_config.h
+pca10056/s140/config/app_config.h
 
-components/sens
-components/sens/sensor_driver.c
-components/sens/include
-components/sens/include/sensor_driver.h
+releases/vxx
+releases/ble_app_pi_sensor_pca10056_s140.hex
+releases/s140_nrf52_7.2.0_softdevice.hex
 
-components/.DS_Store
-
-main
-main/main.c
-
-
-pca10056/s140/ses/ble_app_pi_sensor_pca10056_s140_Release.jlink
-pca10056/s140/ses/ble_app_pi_sensor_pca10056_s140_Debug.jlink
+SES (SEGGER Embedded Studio):
+pca10056/s140/ses
 pca10056/s140/ses/ble_app_pi_sensor_pca10056_s140.emProject
 pca10056/s140/ses/ble_app_pi_sensor_pca10056_s140.emSession
 pca10056/s140/ses/flash_placement.xml
-pca10056/s140/ses
-pca10056/s140/config/sdk_config.h
-pca10056/s140/config/app_config.h
-pca10056/s140/config
-pca10056/s140
-pca10056
+pca10056/s140/ses/ble_app_pi_sensor_pca10056_s140_Release.jlink
+pca10056/s140/ses/ble_app_pi_sensor_pca10056_s140_Debug.jlink
 
-releases/ble_app_pi_sensor_pca10056_s140.hex
-releases/s140_nrf52_7.2.0_softdevice.hex
-releases
+Visual studio Code:
+/PiSensorBLE/.vscode/c_cpp_properties.json
 
 SAADC:
 ------------
@@ -363,5 +374,3 @@ BLE: With Soft
 ../../../components/butt/include
 ../../../components/leds/include
 ../config
-
-
