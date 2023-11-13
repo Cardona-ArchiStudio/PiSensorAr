@@ -1,78 +1,108 @@
+/**
+ * @file main.c
+ * @brief The main application (main.c) acts as the orchestrator.  
+ * 
+ * Serves as the command center, initializing components and managing the 
+ * operation loop.
+ * 
+ * @author Henry Cardon <henry@cardona.se>
+ * @date Created on: 2023-10-12
+ *
+ * Copyright (c) 2017-2023 Cardona Architecture Studio <cardona-archistudio.com>
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * License: MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 #include "sensor_driver.h"
 #include "log_driver.h"
-#include "nrf_drv_uart.h"
-#include "nrf_gpio.h"
+#include "uart_driver.h"
+#include "sadc_driver.h"
+
 #include "app_error.h"
-#include "nrf_delay.h"
 #include "nrf_drv_timer.h"
-//#include "nrf_drv_uart.h"
-#include "nrf_uart.h"
+#include "nrf_delay.h"
 
 #define HIGH_INTENSITY 255
 #define LOW_INTENSITY 0
 
-#define SAADC_BUF_COUNT        2
-#define SAADC_SAMPLE_FREQUENCY 8000
-
+// Sets up a timer for regular stability assessments.
 const nrf_drv_timer_t STABILITY_TIMER = NRF_DRV_TIMER_INSTANCE(0);
 
-// UART instance and configuration
-static const nrf_drv_uart_t uart_instance = NRF_DRV_UART_INSTANCE(0);
-static nrf_drv_uart_config_t uart_config = NRF_DRV_UART_DEFAULT_CONFIG;
-
-static nrf_saadc_value_t samples[SAADC_BUF_COUNT][SAADC_BUF_SIZE];
-static nrfx_saadc_channel_t channel_config = NRFX_SAADC_DEFAULT_CHANNEL_SE(NRF_SAADC_INPUT_AIN0, 0);
-
-volatile bool data_ready_flag = false;
-volatile bool is_pwm_active = false;
-nrf_saadc_value_t* current_buffer = NULL;
-
-static uint32_t next_free_buf_index(void);
+/*
+ * Prototypes for internal functions:
+ */ 
 void sensor_feedback(sensor_data_t* sensor_data);
 void set_rgb_intensity(uint16_t red, uint16_t green, uint16_t blue);
-static void event_handler(nrfx_saadc_evt_t const * p_event);
-static void adc_start(uint32_t cc_value);
 static uint16_t map_intensity(uint16_t x, uint16_t in_min, uint16_t in_max, uint16_t out_min, uint16_t out_max);
+uint8_t calculate_checksum(uint8_t* data, uint8_t length);
 static void timer_event_handler(nrf_timer_event_t event_type, void* p_context);
 static void timer_setup(void);
 
-// Simple function to provide an index to the next input buffer
-// Will simply alernate between 0 and 1 when SAADC_BUF_COUNT is 2
-static uint32_t next_free_buf_index(void)
-{
-    static uint32_t buffer_index = -1;
-    buffer_index = (buffer_index + 1) % SAADC_BUF_COUNT;
-    return buffer_index;
-}
-// UART event handler
-void uart_event_handler(nrf_drv_uart_event_t * p_event, void* p_context) {
-    // We won't do anything specific in the UART callback for the moment
-}
-// Initialize UART
-void uart_init(void) {
-    uart_config.pseltxd = NRF_GPIO_PIN_MAP(0,6);  // TX Pin
-    uart_config.pselrxd = NRF_GPIO_PIN_MAP(0,8);  // RX Pin (even if we're not using RX, it's a good idea to set it)
-    uart_config.baudrate = NRF_UART_BAUDRATE_115200;
-    uart_config.interrupt_priority = APP_IRQ_PRIORITY_LOWEST;
-    uart_config.p_context = NULL;
-    
-    ret_code_t err_code = nrf_drv_uart_init(&uart_instance, &uart_config, uart_event_handler);
-    APP_ERROR_CHECK(err_code);
+/**
+ * @brief Calculate checksum for a given set of data.
+ *
+ * Computes a checksum by summing all the bytes in the data array. This checksum
+ * is used for error-checking in communications.
+ *
+ * @param data Pointer to the data array.
+ * @param length Length of the data array.
+ * @return uint8_t The calculated checksum value.
+ */
+uint8_t calculate_checksum(uint8_t* data, uint8_t length) {
+    uint8_t checksum = 0;
+    for (uint8_t i = 0; i < length; ++i) {
+        checksum += data[i];
+    }
+    return checksum;
 }
 
-// Function to set the RGB intensity and send the data via UART
-void set_rgb_intensity(uint16_t red, uint16_t green, uint16_t blue)
-{
-    // Here you can include any hardware-specific code that sets the intensity of the RGB LEDs
-    // based on the provided values of red, green, and blue.
-
-    // For now, the function sends the RGB intensity data via UART.
-    char message[20];
-    sprintf(message, "DATA:%d,%d,%d\n", red, green, blue);
-    nrf_drv_uart_tx(&uart_instance, (uint8_t *)message, strlen(message));
+/**
+ * @brief Set the intensity of RGB LEDs and send the data via UART.
+ *
+ * Constructs a message with the specified RGB intensities and transmits it over UART.
+ * The message format includes a start byte, RGB values, checksum, and stop byte.
+ *
+ * @param red Intensity of the red LED component.
+ * @param green Intensity of the green LED component.
+ * @param blue Intensity of the blue LED component.
+ */
+void set_rgb_intensity(uint16_t red, uint16_t green, uint16_t blue) {
+    uint8_t message[6];
+    message[0] = START_BYTE;
+    message[1] = (uint8_t)(red & 0xFF); // assuming 8-bit color intensity
+    message[2] = (uint8_t)(green & 0xFF);
+    message[3] = (uint8_t)(blue & 0xFF);
+    message[4] = calculate_checksum(&message[1], 3); // checksum of RGB values
+    message[5] = STOP_BYTE;
+    // TOSO: Currently we are only sensing data using the UART to Arduino
+    uart_send(message, sizeof(message));
 }
-
-// Callback function to handle new sensor reading
+/**
+ * @brief Feedback handler for new sensor readings.
+ *
+ * Processes new sensor data and adjusts RGB LED intensity based on sensor values.
+ * This function is called as a callback from the sensor driver.
+ *
+ * @param sensor_data Pointer to the latest sensor data structure.
+ */
 void sensor_feedback(sensor_data_t* sensor_data)
 {
     uint16_t sensor_value = (uint16_t)sensor_data->sensor_reading;
@@ -96,7 +126,7 @@ void sensor_feedback(sensor_data_t* sensor_data)
                                        sensor_data->golden_reference - STABILITY_THRESHOLD,
                                        HIGH_INTENSITY, LOW_INTENSITY);
     }
-    else if (sensor_value > sensor_data->golden_reference + STABILITY_THRESHOLD)
+    else if (sensor_value > sensor_data->golden_reference + (STABILITY_THRESHOLD *2)) // TODO: For stability *2 for now
     {
         // As the sensor_value increases over the golden_reference, the green intensity increases.
         green_intensity = map_intensity(sensor_value,
@@ -108,6 +138,19 @@ void sensor_feedback(sensor_data_t* sensor_data)
     set_rgb_intensity(red_intensity, green_intensity, blue_intensity);
 }
 
+/**
+ * @brief Map a sensor value to a specified intensity range.
+ *
+ * Linearly maps a sensor reading from one range to another range, typically used
+ * for mapping sensor readings to LED intensities.
+ *
+ * @param x Sensor reading to map.
+ * @param in_min Minimum value of the sensor's range.
+ * @param in_max Maximum value of the sensor's range.
+ * @param out_min Minimum value of the intensity range.
+ * @param out_max Maximum value of the intensity range.
+ * @return uint16_t Mapped intensity value.
+ */
 static uint16_t map_intensity(uint16_t x, uint16_t in_min, uint16_t in_max, uint16_t out_min, uint16_t out_max) {
     
     // Ensure values are within the expected range
@@ -119,48 +162,15 @@ static uint16_t map_intensity(uint16_t x, uint16_t in_min, uint16_t in_max, uint
     return (uint8_t)(x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-static void event_handler(nrfx_saadc_evt_t const * p_event)
-{
-    ret_code_t err_code;
-    switch (p_event->type)
-    {
-        case NRFX_SAADC_EVT_DONE:
-            current_buffer = p_event->data.done.p_buffer;
-            data_ready_flag = true;
-            break;
-
-        case NRFX_SAADC_EVT_BUF_REQ:
-            // Set up the next available buffer
-            err_code = nrfx_saadc_buffer_set(&samples[next_free_buf_index()][0], SAADC_BUF_SIZE);
-            APP_ERROR_CHECK(err_code);
-            break;
-    }
-}
-
-static void adc_start(uint32_t cc_value)
-{
-    ret_code_t err_code;
-
-    nrfx_saadc_adv_config_t saadc_adv_config = NRFX_SAADC_DEFAULT_ADV_CONFIG;
-    saadc_adv_config.internal_timer_cc = cc_value;
-    saadc_adv_config.start_on_end = true;
-
-    err_code = nrfx_saadc_advanced_mode_set((1<<0), NRF_SAADC_RESOLUTION_10BIT,
-                                            &saadc_adv_config,
-                                            event_handler);
-    APP_ERROR_CHECK(err_code);
-                                            
-    // Configure two buffers to ensure double buffering of samples, to avoid data 
-    // loss when the sampling frequency is high
-    err_code = nrfx_saadc_buffer_set(&samples[next_free_buf_index()][0], SAADC_BUF_SIZE);
-    APP_ERROR_CHECK(err_code);
-
-    err_code = nrfx_saadc_buffer_set(&samples[next_free_buf_index()][0], SAADC_BUF_SIZE);
-    APP_ERROR_CHECK(err_code);
-
-    err_code = nrfx_saadc_mode_trigger();
-    APP_ERROR_CHECK(err_code);
-}
+/**
+ * @brief Timer event handler.
+ *
+ * Handles timer events. When the timer event occurs, it triggers the sensor stability
+ * check function.
+ *
+ * @param event_type Type of the timer event.
+ * @param p_context Context for the timer event (unused).
+ */
 static void timer_event_handler(nrf_timer_event_t event_type, void* p_context)
 {
     switch (event_type)
@@ -176,6 +186,12 @@ static void timer_event_handler(nrf_timer_event_t event_type, void* p_context)
     }
 }
 
+/**
+ * @brief Setup the timer for sensor stability checks.
+ *
+ * Initializes and configures a timer to periodically trigger sensor stability checks.
+ * The timer generates events at a defined interval.
+ */
 static void timer_setup(void)
 {
     uint32_t err_code;
@@ -200,47 +216,53 @@ static void timer_setup(void)
     // Start the timer
     nrf_drv_timer_enable(&STABILITY_TIMER);
 }
+
 /**
- * @brief Function for application main entry.
+ * Main application entry point.
+ * Initializes various modules and enters the main loop, processing sensor data.
  */
 int main(void)
 {
+    // Initialize the logging module
     log_init();
-    //timers_init(); // Defined in sensor_driver.h already
-    //NRF_LOG_INFO("Timer count: %lu", app_timer_cnt_get());
-
+    
+    // Initialize UART for communication
     uart_init();
-    // Initialize the sensor passing to it the callback function pointer 
+    
+    // Initialize the sensor with a callback function for processing sensor data
     sensor_init(sensor_feedback);
+    
+    // Initialize the SAADC module
+    sadc_init();
 
-    ret_code_t err_code;
-    err_code = nrfx_saadc_init(NRFX_SAADC_CONFIG_IRQ_PRIORITY);
-    APP_ERROR_CHECK(err_code);
- 
-    err_code = nrfx_saadc_channels_config(&channel_config, 1);
-    APP_ERROR_CHECK(err_code);
-
+    // Calculate the capture-compare value for SAADC sampling based on desired frequency
     uint32_t adc_cc_value = 16000000 / SAADC_SAMPLE_FREQUENCY;
     if(adc_cc_value < 80 || adc_cc_value > 2047)
     {
-        NRF_LOG_ERROR("SAMPLERATE frequency outside legal range. Consider using a timer to trigger the ADC instead.");
+        NRF_LOG_ERROR("Sample rate frequency outside legal range.");
         APP_ERROR_CHECK(false);
     }
-    adc_start(adc_cc_value);
+    // Starts the SAADC module  
+    sadc_start(adc_cc_value);
 
-    // Timer Initialization and Start
+    // Setup and start a timer for regular sensor stability checks
     timer_setup();
     
+    // Main loop
     while (1)
     {
-        if (data_ready_flag) {
-            // Process the input based on the saadc event
-            sensor_process(current_buffer);
-            data_ready_flag = false;
-            nrf_delay_ms(SENSOR_READ_DELAY);  // Add a delay to slow down the loop
+        // Check if new sensor data is ready and process it
+        if ( get_data_ready_flag() ) {
+            sensor_process( get_current_buffer() );
+            set_data_ready_flag(false);
+            nrf_delay_ms(SENSOR_READ_DELAY);  // Delay to manage loop frequency
         }
-        // NRF_LOG_FLUSH();
+        
+        // Process log messages
+        NRF_LOG_PROCESS();
         while(NRF_LOG_PROCESS() != NRF_SUCCESS);
+        
+        // Wait for event
         __WFE();
     }  
 }
