@@ -16,7 +16,7 @@
       arm_target_device_name="nRF52840_xxAA"
       arm_target_interface_type="SWD"
       c_preprocessor_definitions="BOARD_PCA10056;BSP_DEFINES_ONLY;CONFIG_GPIO_AS_PINRESET;FLOAT_ABI_HARD;INITIALIZE_USER_SECTIONS;NO_VTOR_CONFIG;NRF52840_XXAA;NRFX_SAADC_API_V2;APP_TIMER_V2;APP_TIMER_V2_RTC1_ENABLED;USE_APP_CONFIG"
-      c_user_include_directories="../../../config;../../../../nRF5_SDK/components;../../../../nRF5_SDK/components/boards;../../../../nRF5_SDK/components/drivers_nrf/nrf_soc_nosd;../../../../nRF5_SDK/components/libraries/atomic;../../../../nRF5_SDK/components/libraries/atomic_fifo;../../../../nRF5_SDK/components/libraries/balloc;../../../../nRF5_SDK/components/libraries/bsp;../../../../nRF5_SDK/components/libraries/delay;../../../../nRF5_SDK/components/libraries/experimental_section_vars;../../../../nRF5_SDK/components/libraries/log;../../../../nRF5_SDK/components/libraries/log/src;../../../../nRF5_SDK/components/libraries/memobj;../../../../nRF5_SDK/components/libraries/mutex;../../../../nRF5_SDK/components/libraries/pwr_mgmt;../../../../nRF5_SDK/components/libraries/ringbuf;../../../../nRF5_SDK/components/libraries/strerror;../../../../nRF5_SDK/components/libraries/sortlist;../../../../nRF5_SDK/components/libraries/timer;../../../../nRF5_SDK/components/libraries/util;../../../../nRF5_SDK/components/toolchain/cmsis/include;../../../../nRF5_SDK/external/fprintf;../../../../nRF5_SDK/external/segger_rtt;../../../../nRF5_SDK/integration/nrfx;../../../../nRF5_SDK/integration/nrfx/legacy;../../../../nRF5_SDK/modules/nrfx;../../../../nRF5_SDK/modules/nrfx/drivers/include;../../../../nRF5_SDK/modules/nrfx/hal;../../../../nRF5_SDK/modules/nrfx/mdk;../../../components/sens/include;../../../components/blue/include;../../../components/logs/include;../../../components/butt/include;../../../components/leds/include;../config"
+      c_user_include_directories="../../../config;../../../../nRF5_SDK/components;../../../../nRF5_SDK/components/boards;../../../../nRF5_SDK/components/drivers_nrf/nrf_soc_nosd;../../../../nRF5_SDK/components/libraries/atomic;../../../../nRF5_SDK/components/libraries/atomic_fifo;../../../../nRF5_SDK/components/libraries/balloc;../../../../nRF5_SDK/components/libraries/bsp;../../../../nRF5_SDK/components/libraries/delay;../../../../nRF5_SDK/components/libraries/experimental_section_vars;../../../../nRF5_SDK/components/libraries/log;../../../../nRF5_SDK/components/libraries/log/src;../../../../nRF5_SDK/components/libraries/memobj;../../../../nRF5_SDK/components/libraries/mutex;../../../../nRF5_SDK/components/libraries/pwr_mgmt;../../../../nRF5_SDK/components/libraries/ringbuf;../../../../nRF5_SDK/components/libraries/strerror;../../../../nRF5_SDK/components/libraries/sortlist;../../../../nRF5_SDK/components/libraries/timer;../../../../nRF5_SDK/components/libraries/util;../../../../nRF5_SDK/components/toolchain/cmsis/include;../../../../nRF5_SDK/external/fprintf;../../../../nRF5_SDK/external/segger_rtt;../../../../nRF5_SDK/integration/nrfx;../../../../nRF5_SDK/integration/nrfx/legacy;../../../../nRF5_SDK/modules/nrfx;../../../../nRF5_SDK/modules/nrfx/drivers/include;../../../../nRF5_SDK/modules/nrfx/hal;../../../../nRF5_SDK/modules/nrfx/mdk;../../../components/sens/include;../../../components/blue/include;../../../components/logs/include;../../../components/butt/include;../../../components/leds/include;../../../components/uart/include;../../../components/sadc/include;../config"
       debug_additional_load_file="../../../../nRF5_SDK/components/softdevice/s140/hex/s140_nrf52_7.2.0_softdevice.hex"
       debug_register_definition_file="../../../../nRF5_SDK/modules/nrfx/mdk/nrf52840.svd"
       debug_start_from_entry_point_symbol="No"
@@ -124,6 +124,12 @@
         </folder>
         <folder Name="sens">
           <file file_name="../../../components/sens/sensor_driver.c" />
+        </folder>
+        <folder Name="sadc">
+          <file file_name="../../../components/sadc/sadc_driver.c" />
+        </folder>
+        <folder Name="uart">
+          <file file_name="../../../components/uart/uart_driver.c" />
         </folder>
       </folder>
       <folder Name="config">
