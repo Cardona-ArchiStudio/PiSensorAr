@@ -1,53 +1,79 @@
-# PiSensorBLE
-In capacitive sensing, particularly with capacitive touch or proximity sensors, a change in capacitance often translates to a change in the energy stored in the sensing capacitor. By monitoring the energy or the associated voltage, we can deduce changes in the capacitance, which can in turn indicate proximity or touch events.
+# PiSensorBLE Application v 0.1.12
+Capacitive sensing technology, particularly in touch or proximity sensors, is predicated on detecting changes in capacitance. Such changes can indicate various environmental interactions, including touch or proximity events, by monitoring associated shifts in voltage or energy within the sensor's capacitor.
 
-# PiSensorBLE Application Flow Report
-An overview of how the `sensor_driver.h`, `sensor_driver.c`, and `main.c`  interact and the general flow of the program.
+## PiSensorBLE Application Flow Report
+This report outlines the updated interactions among `sensor_driver.h`, `sensor_driver.c`, `main.c`, and additional components that comprise the PiSensorBLE application. The application aims to read sensor data, maintain its stability, and communicate feedback via RGB intensity adjustments through UART communication. The design emphasizes modularity and clear separation of concerns, promoting scalability and maintainability.
 
-This report provides an overview of the three code snippets and their interactions. The program's primary objective is to read the sensor data, ensuring its stability, and to provide feedback through RGB intensities via an UART communication. It's modular in design, with clear separations of concerns, making it maintainable and scalable.
+### Sensor Driver (`sensor_driver`):
+- **Header (`sensor_driver.h`)**:
+  - **Purpose**: Declares the sensor driver's necessary data structures, constants, and function prototypes.
+  - **Key Structures**:
+    - `sensor_data_t`: Stores sensor readings, reference values, and voltage stability indicators.
+    - `sensor_status_t`: Lists possible sensor states or statuses.
+    - `sensor_context_t`: Contains contextual information about the sensor, such as calibration status and range of readings.
+- **Implementation (`sensor_driver.c`)**:
+  - **Initialization**:
+    - `sensor_init()`: Readies the sensor for use and registers a feedback callback.
+    - `sensor_initialization()`: Resets sensor data to default values for a fresh start.
+  - **Data Processing**:
+    - `sensor_process()`: Analyzes sensor data, calibrating if necessary, or proceeding with standard operations if already calibrated.
+    - `calibration_process()`: Establishes initial sensor benchmarks for comparison.
+    - `operation_process()`: Handles ongoing sensor data interpretation.
+  - **Stability Management**:
+    - `sensor_stability_check()`: Monitors for consistent readings to confirm stability or trigger recalibration.
+    - `auto_calibrate()`: Refines the sensor's baseline measurements for improved accuracy.
+  - **Utilities**:
+    - `convert_to_voltage()`: Converts raw ADC readings into a voltage representation.
+    - `log_sensor_data()`: Captures and logs sensor data for troubleshooting.
 
-## 1. **Sensor Driver Header (`sensor_driver.h`)**:
-- **Purpose**: Declares the data structures, constants, and function prototypes required for the sensor driver.
-- **Key Structures**:
-    - `sensor_data_t`: Holds sensor readings, reference values, and voltage stability status.
-    - `sensor_status_t`: Enumerates various states/statuses of the sensor.
-    - `sensor_context_t`: Maintains the operational context of the sensor, including calibration status and current min/max values.
-
-## 2. **Sensor Driver Implementation (`sensor_driver.c`)**:
-- **Purpose**: Implements the logic and functionalities declared in `sensor_driver.h`.
-- **Initialization**: 
-    - `sensor_init()`: Prepares the sensor for operation and stores a callback for feedback.
-    - `sensor_initialization()`: Resets the sensor data and context to default values.
-- **Sensor Reading & Processing**:
-    - `sensor_process()`: Determines if the sensor is calibrated. If not, it triggers calibration. If calibrated, it proceeds to normal operation.
-    - `calibration_process()`: Obtains initial readings from the sensor, computes averages, and establishes reference boundaries.
-    - `operation_process()`: Processes the sensor readings during normal operation.
-- **Stability Checks & Auto-Calibration**:
-    - `sensor_stability_check()`: Evaluates if the sensor readings are stable and triggers auto-calibration if required.
-    - `auto_calibrate()`: Updates the golden reference and adjusts the reference boundaries.
-- **Utility Functions**:
-    - `convert_to_voltage()`: Transforms ADC values to voltage.
-    - `log_sensor_data()`: Logs sensor data for debugging purposes.
-
-## 3. **Main Application (`main.c`)**:
-- **Purpose**: Orchestrates the initialization and continuous operation of the sensor driver within the context of the application.
+### Main Application (`main.c`):
 - **Initialization**:
-    - Sets up the UART for communication.
-    - Initializes the sensor using `sensor_init()`.
-    - Sets up the ADC for sampling.
-    - Initializes a timer for periodic stability checks.
-- **Main Loop**:
-    - Continuously checks if new ADC data is ready.
-    - Once data is ready, it processes the sensor readings using `sensor_process()`.
-    - If the readings are stable, the feedback function (`sensor_feedback()`) is invoked.
-        - This function maps the sensor value to RGB intensities, which can then be used to control LEDs or other visual indicators.
-        - The RGB intensities are also sent via UART using `set_rgb_intensity()`.
-- **Supporting Functions**:
-    - Several functions like `timer_setup()`, `event_handler()`, and `adc_start()` assist in ADC sampling and timer management.
+  - Establishes UART communication.
+  - Activates the sensor with `sensor_init()`.
+  - Prepares ADC for data collection.
+  - Sets up a timer for regular stability assessments.
+- **Operation Loop**:
+  - Routinely polls for new ADC data.
+  - Processes new data with `sensor_process()`.
+  - Stable readings trigger `sensor_feedback()`, updating RGB LED intensities and communicating via UART with `set_rgb_intensity()`.
+- **Support Functions**:
+  - `timer_setup()`, `event_handler()`, and `adc_start()` assist with the operational flow, particularly concerning ADC management and timing mechanisms.
 
-## **Interaction**:
-- The main application (`main.c`) acts as the orchestrator. 
-- Upon startup, it initializes all required peripherals and the sensor driver.
-- In its continuous loop, it checks for new sensor data. If available, it passes the data to the sensor driver for processing.
-- The sensor driver (`sensor_driver.c`) manages the calibration and continuous readings of the sensor. It assesses the stability of readings and, if necessary, recalibrates the sensor.
-- If the sensor readings are stable, the driver invokes the feedback callback provided by the main application, enabling the application to respond to the readings (e.g., by changing the color of an RGB LED).
+### Interactions and Workflow:
+- **Main Application (`main.c`)**: Serves as the command center, initializing components and managing the operation loop.
+- **Sensor Driver (`sensor_driver.c`)**: Responsible for interpreting sensor data, calibrating, and ensuring reading stability.
+- **Feedback Loop**: Stable sensor data prompts a callback execution, which translates readings into visual feedback via an RGB LED.
+
+### Newly Introduced Components:
+
+#### SADC Driver (`sadc`):
+- **Driver (`sadc_driver.c`)** and **Header (`sadc_driver.h`)**:
+  - Handle the specifics of the Successive Approximation Analog-to-Digital Converter (SAADC), interfacing directly with the hardware to manage analog sensor inputs.
+
+#### UART Driver (`uart`):
+- **Driver (`uart_driver.c`)** and **Header (`uart_driver.h`)**:
+  - Manage serial communication, ensuring data is correctly transmitted and received over the UART interface.
+
+#### Log Driver (`logs`):
+- **Driver (`log_driver.c`)** and **Header (`log_driver.h`)**:
+  - Provide a logging interface, crucial for monitoring application behavior and diagnosing issues.
+
+The interaction among these components results in a cohesive system that can reliably sense environmental changes, process and interpret these changes, and respond with appropriate feedback while maintaining a log of operations for review and analysis.
+
+## Microprocessors:
+Nordic Semiconductor nrF52840-DK and Arduino UNO v3 (See PiSensorFeedback.ino).
+
+## SDK:
+Version nRF5_SDK_17.0.2_d674dde.
+See release_notes.txt for details
+
+## Directory structure:
+- main/main.c
+- components/sadc/sadc_driver.c
+- components/sadc/include/sadc_driver.h
+- components/uart/uart_driver.c
+- components/uart/include/uart_driver.h
+- components/logs/log_driver.c
+- components/logs/include/log_driver.h
+- components/sens/sensor_driver.c
+- components/sens/include/sensor_driver.h
