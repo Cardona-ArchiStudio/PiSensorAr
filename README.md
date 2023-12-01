@@ -1,8 +1,8 @@
-# PiSensorBLE Application v 0.1.12
+# PiSensorAr Application v 0.1.12
 Capacitive sensing technology, particularly in touch or proximity sensors, is predicated on detecting changes in capacitance. Such changes can indicate various environmental interactions, including touch or proximity events, by monitoring associated shifts in voltage or energy within the sensor's capacitor.
 
-## PiSensorBLE Application Flow Report
-This report outlines the updated interactions among `sensor_driver.h`, `sensor_driver.c`, `main.c`, and additional components that comprise the PiSensorBLE application. The application aims to read sensor data, maintain its stability, and communicate feedback via RGB intensity adjustments through UART communication. The design emphasizes modularity and clear separation of concerns, promoting scalability and maintainability.
+## PiSensorAr Application Flow Report
+This report outlines the updated interactions among `sensor_driver.h`, `sensor_driver.c`, `main.c`, and additional components that comprise the PiSensorAr application. The application aims to read sensor data, maintain its stability, and communicate feedback via RGB intensity adjustments through UART communication. The design emphasizes modularity and clear separation of concerns, promoting scalability and maintainability.
 
 ### Sensor Driver (`sensor_driver`):
 - **Header (`sensor_driver.h`)**:
